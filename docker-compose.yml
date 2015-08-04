@@ -1,0 +1,5 @@
+kugou:
+  build: .
+  ports:
+    - "7590:80"
+  restart: always
