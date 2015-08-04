@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from bottle import request, route, run
+from bottle import request, response, route, run
 import kugou
 import logging
 import time
@@ -32,7 +32,29 @@ def search(keyword):
         }
 
 
+@route('/resolve/<hash>')
+def resolve(hash):
+
+    try:
+        return kugou.resolve(hash)
+    except Exception as ex:
+        return {
+            "_error": {
+                "code": 500,
+                "message": str(ex),
+            },
+            "_status": "ERR"
+        }
+
+
+@route('/lyric/<hash>')
+def lyric(hash):
+
+    response.content_type = 'text/plain; charset=UTF-8'
+    return kugou.lyric(hash)
+
+
 if __name__ == '__main__':
-    logging.basicConfig(level='DEBUG')
+    logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', datefmt='%FT%T', level='DEBUG')
     run(host='0.0.0.0', port=80)
 
