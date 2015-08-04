@@ -1,5 +1,5 @@
 kugou:
-  build: .
+  image: vimagick/kugou
   ports:
     - "7590:80"
   restart: always

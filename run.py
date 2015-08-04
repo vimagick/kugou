@@ -55,6 +55,7 @@ def lyric(hash):
 
 
 if __name__ == '__main__':
+
     logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', datefmt='%FT%T', level='DEBUG')
     run(host='0.0.0.0', port=80)
 
