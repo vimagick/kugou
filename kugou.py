@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+import functools
 import hashlib
 import json
 import logging
 import os.path
+import requests
 import zlib
-from functools import lru_cache
-from urllib.parse import urlencode
-from urllib.request import urlopen
 
 
 def search(keyword, max_results, page):
     '''search songs by keyword'''
 
     logging.debug('search: %s', keyword)
+
     burl = 'http://lib9.service.kugou.com/websearch/index.php'
     qstr = {
         'pagesize': max_results,
@@ -33,27 +33,115 @@ def search(keyword, max_results, page):
             '_status': 'ERR'
         }
 
-    items = obj['data']['songs']
-    #for i in items:
-    #    i['url'] = resolve(i['hash']).get('url')
-
-    meta = {
-        'max_results': max_results,
-        'page': page,
-        'total': obj['data']['total'],
+    return {
+        '_items': obj['data']['songs'],
+        '_meta': {
+            'max_results': max_results,
+            'page': page,
+            'total': obj['data']['total'],
+        },
     }
+
+
+def newsong(key, max_results, page):
+    '''get new songs'''
+
+    logging.debug('newsong: %s', key)
+
+    lookup = {
+        'cn': {'type': 1},
+        'us': {'type': 2},
+        'jp': {'type': 3},
+    }
+
+    burl = 'http://mobileservice.kugou.com/api/v3/rank/newsong'
+    qstr = {
+        'pagesize': max_results,
+        'page': page,
+        'type': 0,
+    }
+
+    qstr.update(lookup.get(key, 'cn'))
+    obj = fetch(burl, qstr)
+
+    if obj['status'] != 1:
+        return {
+            '_error': {
+                'code': 400,
+                'message': obj['error'],
+            },
+            '_status': 'ERR'
+        }
 
     return {
-        '_items': items,
-        '_meta': meta,
+        '_items': obj['data']['info'],
+        '_meta': {
+            'max_results': max_results,
+            'page': page,
+            'total': obj['data']['total'],
+        },
     }
 
 
-@lru_cache(maxsize=1000000)
+def hotsong(key, max_results, page):
+    '''get hot songs'''
+
+    logging.debug('hotsong: %s', key)
+
+    lookup = {
+        'hit': {'rankid': 6666, 'ranktype': 2},
+        'top': {'rankid': 8888, 'ranktype': 2},
+        'kugou': {'rankid': 4677, 'ranktype': 1},
+        'hk': {'rankid': 4676, 'ranktype': 1},
+        'tw': {'rankid': 4688, 'ranktype': 1},
+        'us': {'rankid': 4681, 'ranktype': 1},
+        'uk': {'rankid': 4680, 'ranktype': 1},
+        'jp': {'rankid': 4673, 'ranktype': 1},
+        'kr': {'rankid': 4672, 'ranktype': 1},
+        'itunes': {'rankid': 4674, 'ranktype': 1},
+        'channelv': {'rankid': 4694, 'ranktype': 1},
+        'ktv': {'rankid': 4693, 'ranktype': 1},
+        'love': {'rankid': 67, 'ranktype': 3},
+        'blue': {'rankid': 65, 'ranktype': 3},
+        'heal': {'rankid': 22590, 'ranktype': 3},
+    }
+
+    burl = 'http://mobilecdn.kugou.com/api/v3/rank/song'
+    qstr = {
+        'page': page,
+        'pagesize': max_results,
+        'rankid': 0,
+        'ranktype': 0,
+    }
+
+    qstr.update(lookup.get(key, 'hit'))
+    obj = fetch(burl, qstr)
+
+    if obj['status'] != 1:
+        return {
+            '_error': {
+                'code': 400,
+                'message': obj['error'],
+            },
+            '_status': 'ERR'
+        }
+
+    return {
+        '_items': obj['data']['info'],
+        '_meta': {
+            'max_results': max_results,
+            'page': page,
+            'total': obj['data']['total'],
+        },
+    }
+
+
+@functools.lru_cache(maxsize=1000000)
 def resolve(hash):
     '''resolve song download url'''
 
     logging.debug('resolve: %s', hash)
+
     burl = 'http://trackercdn.kugou.com/i/'
     qstr = {
         'acceptMp3': 1,
@@ -77,8 +165,10 @@ def resolve(hash):
 
 
 def lyric(hash):
+    '''get decoded lyric'''
 
     logging.debug('lyric: %s', hash)
+
     burl = 'http://mobilecdn.kugou.com/new/app/i/krc.php'
     qstr = {
         'keyword': '??????',
@@ -100,10 +190,8 @@ def lyric(hash):
 def fetch(burl, qstr, as_json=True):
     '''fetch url as json/blob'''
 
-    url = burl
-    if qstr:
-        url += '?' + urlencode(qstr)
-    blob = urlopen(url).read()
+    blob = requests.get(burl, qstr).content
+
     if as_json:
         return json.loads(blob.decode())
     else:

@@ -32,6 +32,33 @@ def search(keyword):
         }
 
 
+@route('/hotsong/<key>')
+def hotsong(key):
+
+    return toplist('hotsong', key)
+
+
+@route('/newsong/<key>')
+def newsong(key):
+
+    return toplist('newsong', key)
+
+
+def toplist(func, key):
+    try:
+        max_results = int(request.query.max_results or 10)
+        page= int(request.query.page or 1)
+        return getattr(kugou, func)(key, max_results, page)
+    except Exception as ex:
+        return {
+            "_error": {
+                "code": 500,
+                "message": str(ex),
+            },
+            "_status": "ERR"
+        }
+
+
 @route('/resolve/<hash>')
 def resolve(hash):
 
