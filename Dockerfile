@@ -13,5 +13,9 @@ RUN apk add -U curl python3 \
     && pip install -r requirements.txt \
     && rm -rf /var/cache/apk/*
 
+ENV KUGOU_HOST 0.0.0.0
+ENV KUGOU_PORT 80
+
 EXPOSE 80
+
 CMD ["python3", "run.py"]

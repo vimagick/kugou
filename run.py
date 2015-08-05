@@ -4,14 +4,24 @@
 from bottle import request, response, route, run
 import kugou
 import logging
+import os
 import time
 
 
 @route('/', 'GET')
 def index():
+
     return {
-        'version': '0.0.1',
+        'homepage': 'http://web.kugou.com/default.html',
+        'version': '1.0.0',
         'timestamp': time.time(),
+        'endpoints': {
+            'search': '/search/<keyword>',
+            'hotsong': '/hotsong/<key>',
+            'newsong': '/newsong/<key>',
+            'resolve': '/resolve/<hash>',
+            'lyric': '/lyric/<hash>',
+        },
     }
 
 
@@ -84,5 +94,5 @@ def lyric(hash):
 if __name__ == '__main__':
 
     logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', datefmt='%FT%T', level='DEBUG')
-    run(host='0.0.0.0', port=80)
+    run(host=os.getenv('KUGOU_HOST', '127.0.0.1'), port=os.getenv('KUGOU_PORT', 80))
 
