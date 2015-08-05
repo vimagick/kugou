@@ -1,0 +1,18 @@
+<div style="float: right;">
+    <input type="text" placeholder="歌名过滤" ng-model="keyword" />
+</div>
+<hr style="clear: both;" />
+<div class="CSSTableGenerator">
+    <table>
+        <tr>
+            <th>歌曲名称</th>
+            <th>时长(分钟)</th>
+            <th>大小(兆字节)</th>
+        </tr>
+        <tr ng-repeat="song in songs | filter:keyword">
+            <td><a href="#/songs/[[ song.hash ]]">[[ song.filename ]]</a></td>
+            <td>[[ song.duration / 60 | currency:"" ]]</td>
+            <td>[[ song.filesize / 1024 / 1024 | currency:"" ]]</td>
+        </tr>
+    </table>
+</div>

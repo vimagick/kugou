@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from bottle import request, response, route, run
+from bottle import request, response, route, run, static_file, template
 import kugou
 import logging
 import os
@@ -10,6 +10,12 @@ import time
 
 @route('/', 'GET')
 def index():
+
+    return static_file('index.html', root='./static')
+
+
+@route('/info', 'GET')
+def info():
 
     return {
         'homepage': 'http://web.kugou.com/default.html',
@@ -91,8 +97,13 @@ def lyric(hash):
     return kugou.lyric(hash)
 
 
+@route('/static/<filename>')
+def server_static(filename):
+    return static_file(filename, root='./static')
+
+
 if __name__ == '__main__':
 
     logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', datefmt='%FT%T', level='DEBUG')
-    run(host=os.getenv('KUGOU_HOST', '127.0.0.1'), port=os.getenv('KUGOU_PORT', 80))
+    run(host=os.getenv('KUGOU_HOST', '127.0.0.1'), port=os.getenv('KUGOU_PORT', 80), reloader=False)
 
