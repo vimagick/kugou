@@ -1,16 +1,14 @@
-var kugouApp = angular.module('kugouApp', ['ngRoute', 'kugouControllers']);
+var kugouApp = angular.module('kugouApp', ['ngRoute', 'kugouControllers', 'kugouServices']);
 
-kugouApp.config(function($interpolateProvider){
-    $interpolateProvider.startSymbol('[[').endSymbol(']]');
-}).config(function($routeProvider) {
-    $routeProvider.when('/songs', {
+kugouApp.config(function($routeProvider) {
+    $routeProvider.when('/hotsong/:songType', {
         templateUrl: 'static/song-list.html',
         controller: 'SongListCtrl'
-    }).when('/songs/:songId', {
+    }).when('/songs/:songHash', {
         templateUrl: 'static/song-detail.html',
         controller: 'SongDetailCtrl'
     }).otherwise({
-        redirectTo: '/songs'
+        redirectTo: '/hotsong/hit'
     });
 });
 
