@@ -1,3 +1,18 @@
-<a href="{{ song.url }}">下载【{{ song.fileName }}】</a>
-<br>
-<a href="#/songs">返回</a>
+<h3>{{ song.fileName }}</h3>
+
+<div>
+    <a id="play" href="#">播放</a>
+    <br>
+    <a id="down" href="{{ song.url }}">下载</a>
+</div>
+
+<script>
+$("#play").click(function(){
+    var url = $("#down").attr("href");
+    var audio = $("<audio controls autoplay>");
+    var source = $("<source>").attr({type: "audio/mpeg", src: url});
+    audio.append(source);
+    $(this).replaceWith(audio);
+    return false;
+});
+</script>

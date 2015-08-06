@@ -4,6 +4,7 @@ kugouControllers.controller('SongListCtrl', function ($scope, $routeParams, KuGo
     $scope.songs = KuGou.hotsong({songType: $routeParams.songType}, function(data) {
         $scope.songs = data._items;
     });
+    $scope.songType = $routeParams.songType;
 });
 
 kugouControllers.controller('SongDetailCtrl', function($scope, $routeParams, KuGou) {
