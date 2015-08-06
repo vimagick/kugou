@@ -7,6 +7,9 @@ kugouApp.config(function($routeProvider) {
     }).when('/songs/:songHash', {
         templateUrl: 'static/song-detail.html',
         controller: 'SongDetailCtrl'
+    }).when('/search/:keyword', {
+        templateUrl: 'static/song-search.html',
+        controller: 'SongSearchCtrl'
     }).otherwise({
         redirectTo: '/hotsong/hit'
     });

@@ -1,0 +1,14 @@
+<div class="CSSTableGenerator">
+    <table>
+        <tr>
+            <th>歌曲名称</th>
+            <th>时长(分钟)</th>
+            <th>大小(兆字节)</th>
+        </tr>
+        <tr ng-repeat="song in songs">
+            <td><a href="#/songs/{{ song.hash }}">{{ song.filename }}</a></td>
+            <td>{{ song.timelength / 3600 / 60 | currency:"" }}</td>
+            <td>{{ song.filesize / 1024 / 1024 | currency:"" }}</td>
+        </tr>
+    </table>
+</div>

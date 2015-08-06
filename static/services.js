@@ -5,5 +5,6 @@ kugouServices.factory('KuGou', function($resource){
         resolve: {url:'resolve/:songHash', method:'GET'},
         hotsong: {url:'hotsong/:songType?max_results=15', method:'GET'},
         newsong: {url:'newsong/:songType?max_results=15', method:'GET'},
+        search: {url:'search/:keyword?max_results=15', method:'GET'},
     });
 });

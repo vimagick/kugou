@@ -10,10 +10,15 @@
     <script src="static/app.js"></script>
     <script src="static/services.js"></script>
     <script src="static/controllers.js"></script>
-    <title>酷狗音乐排行榜</title>
+    <title>KuGou音乐搜索</title>
 </head>
-<body>
-    <h1><center>酷狗音乐排行榜</center></h1>
-    <div ng-view></div>
+<body ng-controller="MainCtrl">
+    <center>
+        <h1>KuGou音乐搜索</h1>
+        <input id="kw" ng-model="keyword" ng-keypress="$event.keyCode == 13 && search()">
+        <a id="btn" href="#/search/{{ keyword }}">搜索</a>
+        <hr />
+        <div ng-view></div>
+    </center>
 </body>
 </html>
