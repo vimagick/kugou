@@ -1,13 +1,9 @@
 <div>
-    <select ng-model="songType">
-        <option value="hit" selected="selected">中国</option>
-        <option value="hk">香港</option>
-        <option value="tw">台湾</option>
-        <option value="us">美国</option>
-        <option value="uk">英国</option>
-        <option value="jp">日本</option>
+    <select id="songType"
+            ng-model="songType"
+            ng-change="listSongs(songType)"
+            ng-options="id as opt.name group by rankName(opt.ranktype) for (id, opt) in songOptions">
     </select>
-    <a href="#/hotsong/{{ songType }}">GO</a>
 </div>
 <div class="CSSTableGenerator">
     <table>

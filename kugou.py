@@ -89,21 +89,21 @@ def hotsong(key, max_results, page):
     logging.debug('hotsong: %s', key)
 
     lookup = {
-        'hit': {'rankid': 6666, 'ranktype': 2},
-        'top': {'rankid': 8888, 'ranktype': 2},
-        'kugou': {'rankid': 4677, 'ranktype': 1},
-        'hk': {'rankid': 4676, 'ranktype': 1},
-        'tw': {'rankid': 4688, 'ranktype': 1},
-        'us': {'rankid': 4681, 'ranktype': 1},
-        'uk': {'rankid': 4680, 'ranktype': 1},
-        'jp': {'rankid': 4673, 'ranktype': 1},
-        'kr': {'rankid': 4672, 'ranktype': 1},
-        'itunes': {'rankid': 4674, 'ranktype': 1},
-        'channelv': {'rankid': 4694, 'ranktype': 1},
-        'ktv': {'rankid': 4693, 'ranktype': 1},
-        'love': {'rankid': 67, 'ranktype': 3},
-        'blue': {'rankid': 65, 'ranktype': 3},
-        'heal': {'rankid': 22590, 'ranktype': 3},
+        'hit': {'name': 'HIT', 'rankid': 6666, 'ranktype': 2},
+        'top': {'name': 'TOP', 'rankid': 8888, 'ranktype': 2},
+        'kugou': {'name': 'KuGou', 'rankid': 4677, 'ranktype': 1},
+        'hk': {'name': '香港', 'rankid': 4676, 'ranktype': 1},
+        'tw': {'name': '台湾', 'rankid': 4688, 'ranktype': 1},
+        'us': {'name': '美国', 'rankid': 4681, 'ranktype': 1},
+        'uk': {'name': '英国', 'rankid': 4680, 'ranktype': 1},
+        'jp': {'name': '日本', 'rankid': 4673, 'ranktype': 1},
+        'kr': {'name': '韩国', 'rankid': 4672, 'ranktype': 1},
+        'itunes': {'name': 'iTunes', 'rankid': 4674, 'ranktype': 1},
+        'channelv': {'name': 'Channel V', 'rankid': 4694, 'ranktype': 1},
+        'ktv': {'name': 'KTV', 'rankid': 4693, 'ranktype': 1},
+        'love': {'name': '爱情', 'rankid': 67, 'ranktype': 3},
+        'blue': {'name': '忧伤', 'rankid': 65, 'ranktype': 3},
+        'heal': {'name': '治愈', 'rankid': 22590, 'ranktype': 3},
     }
 
     burl = 'http://mobilecdn.kugou.com/api/v3/rank/song'
