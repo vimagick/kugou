@@ -9,7 +9,7 @@
 <script>
 $("#play").click(function(){
     var url = $("#down").attr("href");
-    var audio = $("<audio controls autoplay>");
+    var audio = $("<audio controls autoplay loop>");
     var source = $("<source>").attr({type: "audio/mpeg", src: url});
     audio.append(source);
     $(this).replaceWith(audio);
