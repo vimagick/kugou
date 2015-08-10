@@ -105,5 +105,5 @@ def server_static(filename):
 if __name__ == '__main__':
 
     logging.basicConfig(format='%(asctime)s [%(levelname)s] %(message)s', datefmt='%FT%T', level='DEBUG')
-    run(host=os.getenv('KUGOU_HOST', '127.0.0.1'), port=os.getenv('KUGOU_PORT', 80), reloader=False)
+    run(server='gunicorn', host=os.getenv('KUGOU_HOST', '127.0.0.1'), port=os.getenv('KUGOU_PORT', 80), reloader=False)
 
