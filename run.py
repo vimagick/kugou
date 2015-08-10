@@ -19,7 +19,7 @@ def info():
 
     return {
         'homepage': 'http://web.kugou.com/default.html',
-        'version': '1.0.0',
+        'version': '1.1.0',
         'timestamp': time.time(),
         'endpoints': {
             'search': '/search/<keyword>',
